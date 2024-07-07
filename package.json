@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "vercel-build": "npm install && npm run build",
-    "start": "node index.js"
+    "start": "npm install && npm run build",
+    "dev": "node index.js"
   },
   "keywords": [],
   "author": "",
