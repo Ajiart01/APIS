@@ -6,7 +6,7 @@ const chalk = require("chalk");
 const { execSync } = require("child_process");
 
 const app = express();
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 
 app.use(express.static("public"));
 app.use(bodyParser.json());
@@ -20,8 +20,7 @@ app.use((req, res, next) => {
 
   res.on("finish", () => {
     const duration = Date.now() - start;
-    const statusColor =
-      res.statusCode >= 200 && res.statusCode < 300 ? "green" : "red";
+    const statusColor = res.statusCode >= 200 && res.statusCode < 300 ? "green" : "red";
 
     console.log(
       chalk.bold(
@@ -83,9 +82,7 @@ const installMissingModules = () => {
     process.exit(1);
   }
 
-  const packageJson = JSON.parse(
-    fs.readFileSync(packageJsonPath, "utf-8")
-  );
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
   const missingModules = [];
 
   for (const dependency in packageJson.dependencies) {
@@ -106,11 +103,6 @@ const installMissingModules = () => {
   }
 };
 
-// Serve login.html at the path /login
-app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "login.html"));
-});
-
 console.log(chalk.bold.cyan("Deploying routes..."));
 loadRoutes(path.join(__dirname, "routes"));
 console.log(chalk.bold.cyan("Routes deployment complete."));
@@ -119,38 +111,7 @@ console.log(chalk.bold.cyan("Checking and installing missing modules..."));
 installMissingModules();
 console.log(chalk.bold.cyan("Module installation complete."));
 
-// Handle login functionality
-app.post("/api/login", (req, res) => {
-  const { username, password } = req.body;
-
-  // Hardcoded login credentials for demonstration purposes
-  if (username === "jonellcc" && password === "haroldcc") {
-    res.status(200).json({ success: true });
-  } else {
-    res.status(401).json({ success: false, message: "❌ Incorrect Password or Username Please Try again" });
-  }
-});
-
-// Serve dashboard.html at the path /dashboard.html
-app.get("/dashboard.html", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "dashboard.html"));
-});
-
-app.get("/api/userData", (req, res) => {
-  // Read user data from the file
-  try {
-    const userData = JSON.parse(fs.readFileSync("userData.json", "utf-8"));
-    res.status(200).json(userData);
-  } catch (error) {
-    console.error("Error reading user data:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-app.get("/commands", (req, res) => {
-res.sendFile(path.join(__dirname, "public", "commands.html"));
-  });
 app.listen(port, () => {
-  console.log(
-    chalk.bold(`Server is running on http://localhost:${port}`)
-  );
+  console.log(chalk.bold(`Server is running on http://localhost:${port}`));
 });
+
