@@ -1,5 +1,5 @@
 const express = require('express');
-const { ndown } = require('nayan-media-downloader');
+const { fbdown } = require('btch-downloader');
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.get('/fbdl', async (req, res) => {
       return res.status(400).send('Missing parameters. Please provide a "url" parameter.');
     }
 
-    const result = await ndown(url);
+    const result = await fbdown(url);
     res.json({ url: result });
   } catch (error) {
     res.status(500).json({ error: error.message });
