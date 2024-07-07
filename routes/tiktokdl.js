@@ -1,5 +1,5 @@
 const express = require('express');
-const { tikdown } = require('nayan-media-downloader');
+const { ttdl } = require('btch-downloader');
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.get('/tikdl', async (req, res) => {
       return res.status(400).send('Missing parameters. Please provide a "url" parameter.');
     }
 
-    const result = await tikdown(url);
+    const result = await ttdl(url);
     res.json({ url: result });
   } catch (error) {
     res.status(500).json({ error: error.message });
