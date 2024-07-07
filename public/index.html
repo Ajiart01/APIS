@@ -1,227 +1,298 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API JONELL MAGALLANES</title>
+  <title>BGSBOT RESTAPI ENTERTAINMENT</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #e0f2e9; 
       margin: 0;
       padding: 0;
-      overflow-x: hidden; 
+      transition: background-color 0.3s, color 0.3s;
     }
 
     header {
-      background-color: #3b5998; 
-      color: white;
-      padding: 10px;
+      padding: 15px;
       text-align: center;
-      position: relative;
-    }
-
-    .menu-icon {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      cursor: pointer;
-      font-size: 24px;
-    }
-
-    .menu-content {
-      display: none;
-      position: absolute;
-      top: 60px;
-      right: 10px;
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      border-radius: 5px;
-      padding: 10px;
-      z-index: 1;
-      animation: slideDown 0.3s ease-in-out;
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .menu-item {
-      margin-bottom: 5px;
-      cursor: pointer;
-      color: #333;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     main {
       margin: 20px;
-      padding-bottom: 60px; 
     }
 
-    h2 {
-      color: #3b5998;
-    }
-
-    .endpoint-container {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-
-    footer {
-      background-color: #3b5998;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      position: fixed;
-      bottom: 0;
+    table {
       width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    th {
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    a {
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .day-mode {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    .day-mode header {
+      background-color: #2c3e50;
+      color: white;
+    }
+
+    .day-mode th {
+      background-color: #2c3e50;
+      color: white;
+    }
+
+    .day-mode a {
+      color: #3498db;
+    }
+
+    .night-mode {
+      background-color: #333;
+      color: #f0f0f0;
+    }
+
+    .night-mode header {
+      background-color: #1a252f;
+      color: #f0f0f0;
+    }
+
+    .night-mode th {
+      background-color: #1a252f;
+      color: #f0f0f0;
+    }
+
+    .night-mode a {
+      color: #74b9ff;
+    }
+
+    /* Animasi warna bergerak dari kanan ke kiri */
+    @keyframes animateGradient {
+      0% {
+        background-position: 100% 0%;
+      }
+      100% {
+        background-position: -100% 0%;
+      }
+    }
+
+    h1 {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(270deg, #ff5733, #33ff57, #3357ff, #ff33a6, #ff5733);
+      background-size: 1000% 1000%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: animateGradient 5s linear infinite;
+    }
+
+    .toggle-button {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .toggle-button:hover {
+      background-color: #2980b9;
     }
   </style>
 </head>
-<body>
+<body class="day-mode">
+  <button class="toggle-button" onclick="toggleMode()">Night Mode</button>
+
   <header>
-    <h1>JONELL CC API</h1>
-    <div class="menu-icon" onclick="toggleMenu()">☰</div>
-    <div class="menu-content" id="menuContent">
-      <div class="menu-item" onclick="navigate('/login')">Login</div>
-      <div class="menu-item" onclick="navigate('/commands')">Commands</div>
-    </div>
+    <h1>BGSBOT RESTAPI ENTERTAINMENT</h1>
   </header>
 
   <main>
-    <div class="endpoint-container">
-      <h2>GEOMETRY DASH RANDOM VIDEO API</h2>
-      <p>This Api link route is related geometry dash random video gameplays from TikTok video. Fire in the hole...</p>
-      <p>Example usage: <a href="/api/gd" target="_blank">/api/gd</a></p>
-    </div>
-    <div class="endpoint-container">
-      <h2>RANDOM EDIT VIDEO API</h2>
-      <p>This Api Link route is a random video of edit like preset alightmotion and content related edits</p>
-      <p>Example usage: <a href="/api/edit" target="_blank">/api/edit</a></p>
-    </div>
-
-    <div class="endpoint-container">
-      <h2>TIKTOK SEARCH API</h2>
-      <p>This Api Route Link Is a to search the TikTok Videos Based on hashtags or title of contents</p>
-      <p>Example usage: <a href="/api/tiktok/searchvideo?keywords=" target="_blank">/api/tiktok/searchvideo?keywords=</a></p>
-    </div>
-
-        <div class="endpoint-container">
-      <h2>TINYURL API</h2>
-      <p>This routes api link is a popular shortner link call tinyurl to short yours link and efficient</p>
-      <p>Example usage: <a href="/api/tinyurl?url=" target="_blank">/api/tinyurl?url=</a></p>
-        </div>
-
-    <div class="endpoint-container">
-      <h2>AI API</h2>
-      <p>This routes api link is a simple ai or gpt4</p>
-      <p>Example usage: <a href="/api/ai?query=hi" target="_blank">/api/ai?query=hi</a></p>
-    </div>
-
-    <div class="endpoint-container">
-      <h2>GOOGLE BARD AI API</h2>
-      <p>This route api is bard like chatgpt but but they just have different knowledge of bard (images not supported just text based)</p>
-      <p>Example usage: <a href="/api/bard?query=hi" target="_blank">/api/bard/query=hi</a></p>
-    </div>
-
-    <div class="endpoint-container">
-      <h2>TIKTOK STALK API</h2>
-      <p>This route api to ability to stalk the profile of TikTok Users</p>
-      <p>Example usage: <a href="/api/tikstalk?unique_id=" target="_blank">/api/tikstalk?unique_id=</a></p>
-    </div>
-
-        <div class="endpoint-container">
-      <h2>INSTAGRAM STALK API</h2>
-      <p>This route api to ability to stalk the profile of Instagram Users using username</p>
-      <p>Example usage: <a href="/api/instagram/stalk?ig=" target="_blank">/api/instagram/stalk?ig=</a></p>
-        </div>
-
-            <div class="endpoint-container">
-      <h2>FACEBOOK VIDEO DOWNLOADER API</h2>
-      <p>This route API is to ability to download video from Facebook or Facebook Reels</p>
-      <p>Example usage: <a href="/api/fbdl?url=" target="_blank">/api/fbdl?url=your url video facebook</a></p>
-            </div>
-
-            <div class="endpoint-container">
-      <h2>TIKTOK DOWNLOADER API</h2>
-      <p>This route API to ability to download the video from TikTok video with link video</p>
-      <p>Example usage: <a href="/api/tikdl?url=" target="_blank">/api/tikdl?url= your video link video from TikTok</a></p>
-        </div>
-
-                <div class="endpoint-container">
-      <h2>YOUTUBE DOWNLOADER API</h2>
-      <p>This route API to ability to download the video from Youtube video with link video</p>
-      <p>Example usage: <a href="/api/yt?url=" target="_blank">/api/yt?url= your video link video from youtube</a></p>
-                </div>
-
-                <div class="endpoint-container">
-      <h2>TWITTER DOWNLOADER API</h2>
-      <p>This route API to ability to download the video from Twitter video with link video</p>
-      <p>Example usage: <a href="/api/tikdl?url=" target="_blank">/api/twitter?url= your video link video from from Twitter</a></p>
-                </div>
-
-    <div class="endpoint-container">
-      <h2>YOUTUBE DOWNLOADER API</h2>
-      <p>This route API to ability to download the video from Youtube video with link video</p>
-      <p>Example usage: <a href="/api/yt?url=" target="_blank">/api/yt?url= your video link video from youtube</a></p>
-                </div>
-
-                <div class="endpoint-container">
-      <h2>PINTEREST API</h2>
-      <p>This route API to ability to Search the images from Pinterest</p>
-      <p>Example usage: <a href="/api//pin?title=wallpaper&count=10
-                          =" target="_blank">/api/pin?title=wallpaper&count=15
-</a></p>
-                </div>
-
-                          <div class="endpoint-container">
-      <h2>AI X PINTEREST API</h2>
-      <p>This route can send response with image from Pinterest and via FastAPI Using Python</p>
-      <p>Example usage: <a href="https://aiapiviafastapiwithimagebyjonellmagallanes.replit.app/ai?content=hello 
-                          =" target="_blank">/ai?content=your question
-</a></p>
-                          </div>
-
-  <div class="endpoint-container">
-      <h2>GLOBAL GPT API</h2>
-      <p>This route based on the CHATGPT 3.5 Model AI</p>
-      <p>Example usage: <a href="/api/globalgpt?question=hello
-                          =" target="_blank">/api/gloabalgpt?question=your question
-</a></p>
-  </div>
-    </div>
-
-  <div class="endpoint-container">
-      <h2>LLAMA AI API</h2>
-      <p>LLAMA AI BY META Can Ask Questions And this is Via FastAPI By Python</p>
-      <p>Example usage: <a href="https://llmaaiviafastapibyjonellmagallanes.replit.app/meta?prompt=hello
-                          =" target="_blank">/meta?prompt=your question
-</a></p>
-  </div>
-
+    <section>
+      <h2>Grup WhatsApp dan Kontak</h2>
+      <p>Grup WhatsApp: <a href="https://chat.whatsapp.com/XXXXXX" target="_blank">tekan di sini</a></p>
+      <p>Nomor WhatsApp: <a href="https://wa.me/1234567890" target="_blank">1234567890</a></p>
+    </section>
+    
+    <section>
+      <h2>Fitur API</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama Fitur</th>
+            <th>Metode Request</th>
+            <th>Parameter Query</th>
+            <th>Jenis</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>GEOMETRY DASH RANDOM VIDEO API</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>Video</td>
+            <td><a href="/api/gd" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>RANDOM EDIT VIDEO API</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>Video</td>
+            <td><a href="/api/edit" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>TIKTOK SEARCH API</td>
+            <td>GET</td>
+            <td>keywords</td>
+            <td>Video</td>
+            <td><a href="/api/tiktok/searchvideo?keywords=" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>FACEBOOK VIDEO DOWNLOADER API</td>
+            <td>GET</td>
+            <td>url</td>
+            <td>Video</td>
+            <td><a href="/api/fbdl?url=" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>TIKTOK DOWNLOADER API</td>
+            <td>GET</td>
+            <td>url</td>
+            <td>Video</td>
+            <td><a href="/api/tikdl?url=" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>YOUTUBE DOWNLOADER API</td>
+            <td>GET</td>
+            <td>url</td>
+            <td>Video</td>
+            <td><a href="/api/yt?url=" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>TWITTER DOWNLOADER API</td>
+            <td>GET</td>
+            <td>url</td>
+            <td>Video</td>
+            <td><a href="/api/twitter?url=" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>PINTEREST API</td>
+            <td>GET</td>
+            <td>title, count</td>
+            <td>Gambar</td>
+            <td><a href="/api/pin?title=wallpaper&count=10" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>AI X PINTEREST API</td>
+            <td>GET</td>
+            <td>content</td>
+            <td>Gambar</td>
+            <td><a href="https://aiapiviafastapiwithimagebyjonellmagallanes.replit.app/ai?content=hello" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>TIKTOK STALK API</td>
+            <td>GET</td>
+            <td>unique_id</td>
+            <td>Profil</td>
+            <td><a href="/api/tikstalk?unique_id=" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td>INSTAGRAM STALK API</td>
+            <td>GET</td>
+            <td>ig</td>
+            <td>Profil</td>
+            <td><a href="/api/instagram/stalk?ig=" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td>AI API</td>
+            <td>GET</td>
+            <td>query</td>
+            <td>AI</td>
+            <td><a href="/api/ai?query=hi" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>13</td>
+            <td>GOOGLE BARD AI API</td>
+            <td>GET</td>
+            <td>query</td>
+            <td>AI</td>
+            <td><a href="/api/bard?query=hi" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>14</td>
+            <td>GLOBAL GPT API</td>
+            <td>GET</td>
+            <td>question</td>
+            <td>AI</td>
+            <td><a href="/api/globalgpt?question=hello" target="_blank">tekan di sini</a></td>
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>LLAMA AI API</td>
+            <td>GET</td>
+            <td>prompt</td>
+            <td>AI</td>
+            <td><a href="https://llmaaiviafastapibyjonellmagallanes.replit.app/meta?prompt=hello" target="_blank">tekan di sini</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
   </main>
 
-  <footer>
-    <p>&copy; PROJECT CC JONEL MAGALLANES</p>
-  </footer>
-
   <script>
-    function toggleMenu() {
-      const menuContent = document.getElementById('menuContent');
-      menuContent.style.display = menuContent.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function navigate(path) {
-      window.location.href = path;
+    function toggleMode() {
+      const body = document.body;
+      const toggleButton = document.querySelector('.toggle-button');
+      if (body.classList.contains('day-mode')) {
+        body.classList.remove('day-mode');
+        body.classList.add('night-mode');
+        toggleButton.textContent = 'Day Mode';
+      } else {
+        body.classList.remove('night-mode');
+        body.classList.add('day-mode');
+        toggleButton.textContent = 'Night Mode';
+      }
     }
   </script>
 </body>
