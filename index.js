@@ -13,16 +13,21 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Dynamically load and use routes from the 'routes' directory
+// Fungsi untuk memuat dan mendaftarkan rute dari direktori 'routes'
+function loadRoutes(directory) {
+    fs.readdirSync(directory).forEach(file => {
+        const routePath = path.join(directory, file);
+        if (fs.lstatSync(routePath).isFile() && file.endsWith('.js')) {
+            const route = require(routePath);
+            const routeName = file.replace('.js', '');
+            app.use(`/${routeName}`, route);
+        }
+    });
+}
+
+// Memuat dan mendaftarkan rute dari direktori 'routes'
 const routesPath = path.join(__dirname, 'routes');
-fs.readdirSync(routesPath).forEach(file => {
-    const routePath = path.join(routesPath, file);
-    if (fs.lstatSync(routePath).isFile() && file.endsWith('.js')) {
-        const route = require(routePath);
-        const routeName = file.replace('.js', '');
-        app.use(`/${routeName}`, route);
-    }
-});
+loadRoutes(routesPath);
 
 // Menangani rute yang tidak ditemukan
 app.use((req, res) => {
