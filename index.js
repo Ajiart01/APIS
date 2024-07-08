@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -7,19 +8,24 @@ const PORT = process.env.PORT || 3000;
 // Middleware untuk menyajikan file statis
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Rute utama untuk menampilkan index.html
+// Route utama untuk menampilkan index.html
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Menambahkan rute dari folder routes
-const routes = ['ai', 'aipin', 'bard', 'edit', 'facebook', 'gd', 'globalgpt', 'instalk', 'pin', 'tikstalk', 'tiktok', 'tiktokdl', 'tinyurl', 'twitter', 'youtube'];
-routes.forEach(route => {
-    app.use(`/${route}`, require(`./routes/${route}`));
+// Dynamically load and use routes from the 'routes' directory
+const routesPath = path.join(__dirname, 'routes');
+fs.readdirSync(routesPath).forEach(file => {
+    const routePath = path.join(routesPath, file);
+    if (fs.lstatSync(routePath).isFile() && file.endsWith('.js')) {
+        const route = require(routePath);
+        const routeName = file.replace('.js', '');
+        app.use(`/${routeName}`, route);
+    }
 });
 
 // Menangani rute yang tidak ditemukan
-app.use((req, res, next) => {
+app.use((req, res) => {
     res.status(404).send('404 Not Found');
 });
 
