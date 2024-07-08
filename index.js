@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const cheerio = require('cheerio');
-const got = require('axios').default; // Menggunakan axios sebagai pengganti got
+const axios = require('axios').default; // Menggunakan axios sebagai pengganti got
 const app = express();
 const PORT = process.env.PORT || 3000;
 
