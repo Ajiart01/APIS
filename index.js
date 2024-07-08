@@ -3,7 +3,6 @@ const fs = require("fs");
 const path = require("path");
 const bodyParser = require("body-parser");
 const chalk = require("chalk");
-const { execSync } = require("child_process");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -58,46 +57,10 @@ const loadRoutes = (directory) => {
   });
 };
 
-// Function to install missing modules
-const installMissingModules = () => {
-  const packageJsonPath = path.join(__dirname, "package.json");
-  const packageLockPath = path.join(__dirname, "package-lock.json");
-
-  if (!fs.existsSync(packageJsonPath) || !fs.existsSync(packageLockPath)) {
-    console.error(chalk.bold.red("Error: No package.json or package-lock.json found."));
-    process.exit(1);
-  }
-
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
-  const missingModules = [];
-
-  for (const dependency in packageJson.dependencies) {
-    try {
-      require.resolve(dependency);
-    } catch (error) {
-      missingModules.push(dependency);
-    }
-  }
-
-  if (missingModules.length > 0) {
-    console.log(chalk.bold.green("Installing missing modules..."));
-    deployRoute("npm modules", "green");
-    execSync(`npm install ${missingModules.join(" ")}`);
-    console.log(chalk.bold.green("Modules installed successfully."));
-  } else {
-    console.log(chalk.bold.green("No missing modules found."));
-  }
-};
-
 // Deploy routes
 console.log(chalk.bold.cyan("Deploying routes..."));
 loadRoutes(path.join(__dirname, "routes"));
 console.log(chalk.bold.cyan("Routes deployment complete."));
-
-// Install missing modules
-console.log(chalk.bold.cyan("Checking and installing missing modules..."));
-installMissingModules();
-console.log(chalk.bold.cyan("Module installation complete."));
 
 // Start the server
 app.listen(port, () => {
