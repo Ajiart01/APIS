@@ -13,7 +13,6 @@
   "dependencies": {
     "@types/node": "^18.19.39",
     "@xct007/frieren-scraper": "*",
-   "btch-downloader": "^2.3.2",
     "axios": "^1.6.7",
     "bard-api-node": "^1.3.2",
     "body-parser": "^1.20.2",
