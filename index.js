@@ -49,12 +49,12 @@ const chalk = require("chalk");
 const { execSync } = require("child_process");
 
 const app = express();
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 
 app.use(express.static("public"));
 app.use(bodyParser.json());
 
-
+// Middleware untuk logging setiap request
 app.use((req, res, next) => {
   const start = Date.now();
   const ipAddress = req.ip || req.connection.remoteAddress;
@@ -70,6 +70,10 @@ app.use((req, res, next) => {
         `Request on ${chalk.cyanBright(req.path)} took ${duration} ms - Status: ${chalk[statusColor](res.statusCode)} - IP: ${ipAddress} - Date: ${currentDate}`
       )
     );
+  });
+
+  next();
+});
 
 const deployRoute = (routeName, color) => {
   console.log(chalk.bold[color](`DEPLOYED ROUTE [${routeName}]`));
@@ -99,17 +103,11 @@ const installMissingModules = () => {
   const packageLockPath = path.join(__dirname, "package-lock.json");
 
   if (!fs.existsSync(packageJsonPath) || !fs.existsSync(packageLockPath)) {
-    console.error(
-      chalk.bold.red(
-        "Error: No package.json or package-lock.json found."
-      )
-    );
+    console.error(chalk.bold.red("Error: No package.json or package-lock.json found."));
     process.exit(1);
   }
 
-  const packageJson = JSON.parse(
-    fs.readFileSync(packageJsonPath, "utf-8")
-  );
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
   const missingModules = [];
 
   for (const dependency in packageJson.dependencies) {
@@ -130,16 +128,17 @@ const installMissingModules = () => {
   }
 };
 
+// Memuat dan mendaftarkan rute dari direktori 'routes'
 console.log(chalk.bold.cyan("Deploying routes..."));
 loadRoutes(path.join(__dirname, "routes"));
 console.log(chalk.bold.cyan("Routes deployment complete."));
 
+// Memeriksa dan menginstal modul yang hilang saat server dimulai
 console.log(chalk.bold.cyan("Checking and installing missing modules..."));
 installMissingModules();
 console.log(chalk.bold.cyan("Module installation complete."));
 
+// Menjalankan server
 app.listen(port, () => {
-  console.log(
-    chalk.bold(`Server is running on http://localhost:${port}`)
-  );
+  console.log(chalk.bold(`Server is running on http://localhost:${port}`));
 });
