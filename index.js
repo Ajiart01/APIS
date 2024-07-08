@@ -1,68 +1,28 @@
-const express = require("express");
-const fs = require("fs");
-const path = require("path");
-const bodyParser = require("body-parser");
-const chalk = require("chalk");
+const express = require('express');
+const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.static("public"));
-app.use(bodyParser.json());
+// Middleware untuk menyajikan file statis
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Custom middleware
-app.use((req, res, next) => {
-  const start = Date.now();
-  const ipAddress = req.socket.remoteAddress || req.connection.remoteAddress;
-  const currentDate = new Date().toISOString();
-
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    const statusColor = res.statusCode >= 200 && res.statusCode < 300 ? "green" : "red";
-
-    console.log(
-      chalk.bold(
-        `Request on ${chalk.cyanBright(req.path)} took ${duration} ms - Status: ${chalk[statusColor](res.statusCode)} - IP: ${ipAddress} - Date: ${currentDate}`
-      )
-    );
-  });
-
-  next();
+// Rute utama untuk menampilkan index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Function to deploy routes
-const deployRoute = (routeName, color) => {
-  console.log(chalk.bold[color](`DEPLOYED ROUTE [${routeName}]`));
-};
+// Menambahkan rute dari folder routes
+const routes = ['ai', 'aipin', 'bard', 'edit', 'facebook', 'gd', 'globalgpt', 'instalk', 'pin', 'tikstalk', 'tiktok', 'tiktokdl', 'tinyurl', 'twitter', 'youtube'];
+routes.forEach(route => {
+    app.use(`/${route}`, require(`./routes/${route}`));
+});
 
-// Function to load a single route
-const loadRoute = (filePath) => {
-  try {
-    const route = require(filePath);
-    app.use("/api", route);
-    deployRoute(path.basename(filePath, ".js"), "cyan");
-  } catch (error) {
-    console.error(
-      chalk.bold.red(`Error loading route ${filePath}: ${error.message}`)
-    );
-  }
-};
+// Menangani rute yang tidak ditemukan
+app.use((req, res, next) => {
+    res.status(404).send('404 Not Found');
+});
 
-// Function to load all routes in a directory
-const loadRoutes = (directory) => {
-  fs.readdirSync(directory).forEach((file) => {
-    const filePath = path.join(directory, file);
-    loadRoute(filePath);
-  });
-};
-
-// Deploy routes
-console.log(chalk.bold.cyan("Deploying routes..."));
-loadRoutes(path.join(__dirname, "routes"));
-console.log(chalk.bold.cyan("Routes deployment complete."));
-
-// Start the server
-app.listen(port, () => {
-  console.log(chalk.bold(`Server is running on http://localhost:${port}`));
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
