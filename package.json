@@ -23,7 +23,6 @@
    "esm": "^3.2.25",
     "fs": "^0.0.1-security",
     "googlethis": "^1.8.0",
-    "got": "^14.4.1",
     "node-fetch": "^3.2.6",
     "path": "^0.12.7",
     "request": "^2.88.2",
